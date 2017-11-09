@@ -62,6 +62,8 @@ class LCEImage(object):
         df_dict['date'] = datetime.datetime.strptime(list(filter(None,self.top_level.split('/')))[0],'%m_%d_%y')
         df_dict['physical_radii'] = self['physical_radii']
         df_dict['strain'] = self['strain']
+        if 'cylinder_radius' in self.meta:
+            df_dict['fixity'] = self['physical_radii']/self.meta['cylinder_radius']
         
         return pandas.DataFrame(df_dict)
     

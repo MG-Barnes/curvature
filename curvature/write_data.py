@@ -23,8 +23,8 @@ def extract_radius_of_curvature(image_path, radius_scale):
 
     # Load image in grayscale, blur, and detect edges
     img = cv2.imread(image_path,0)
-    blurred = cv2.GaussianBlur(img, (5,5), 0)
-    edges = cv2.erode(cv2.dilate(cv2.Canny(blurred,30,100), None, iterations=1), None, iterations=1)
+    blurred = cv2.GaussianBlur(img, (7,7), 0)
+    edges = cv2.erode(cv2.dilate(cv2.GaussianBlur(cv2.Canny(blurred,20,100),(9,9),0), None, iterations=1), None, iterations=1)
     
     # find contours in the edge map
     cnts = cv2.findContours(edges.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
@@ -40,7 +40,7 @@ def extract_radius_of_curvature(image_path, radius_scale):
     y_center = []
     for c in cnts:
         # if the contour is not sufficiently large, ignore it
-        if cv2.contourArea(c) < 100:
+        if cv2.contourArea(c) < 190:
             continue
         # gets the x and y values and makes a list of them seperately
         x = np.array(c)[:,0,0]
